@@ -11,6 +11,7 @@ export class HomeComponent implements OnInit {
 	lat : number;
 	long : number;
 	woeid : number;
+	data : object[] = [];
 
 	constructor(
 		private dataService : DataService
@@ -38,7 +39,15 @@ export class HomeComponent implements OnInit {
 	getWoeId(){
 		this.dataService.getWoeId(this.lat,this.long)
 		.then(result => {
-			console.log(result);
+			this.woeid = result[0].woeid;
+			this.getDataWeather();
+		});
+	}
+
+	getDataWeather(){
+		this.dataService.getDataWeather(this.woeid)
+		.then(result => {
+			this.data = result['consolidated_weather'];
 		});
 	}
 }

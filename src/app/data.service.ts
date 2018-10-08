@@ -26,4 +26,15 @@ export class DataService {
 			})
 		})
 	}
+
+	getDataWeather(woeid:number){
+		return new Promise((resolve, error) => {
+			this.http.get(this.API_HOST+'api/location/'+woeid)
+			.subscribe(result => {
+				resolve(result);
+			}, (errorResponse : HttpErrorResponse) => {
+				error(errorResponse);
+			})
+		})
+	}
 }
