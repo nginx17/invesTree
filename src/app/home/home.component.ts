@@ -16,6 +16,10 @@ export class HomeComponent implements OnInit {
 	currentLocation : string;
 	data : object[] = null;
 	dataToday : object = null;
+	search : any = null;
+	searchResult : object = [];
+	searchFlag : boolean = false;
+	loading : boolean = false;
 
 	constructor(
 		private dataService : DataService
@@ -49,8 +53,13 @@ export class HomeComponent implements OnInit {
 		});
 	}
 
-	getDataWeather(){
-		this.dataService.getDataWeather(this.woeid)
+	getDataWeather(woeid:number=null){
+		if(woeid==null) woeid = this.woeid;
+
+		this.data = null;
+		this.dataToday = null;
+		
+		this.dataService.getDataWeather(woeid)
 		.then(result => {
 			var data = result['consolidated_weather'];
 			this.dataToday = data[0];
@@ -69,5 +78,27 @@ export class HomeComponent implements OnInit {
 
 	optimizeNumber(num:number){
 		return Math.floor(num);
+	}
+
+	/** Search block */
+	getSearch(args){
+		var searchQuery = args.controls['search'].value;
+		if(searchQuery != '') {
+			this.loading = true;
+			this.searchFlag = false;
+			this.searchResult = [];
+
+			this.dataService.getDataCitySearch(searchQuery)
+			.then(result => {
+				console.log(result);
+				this.searchResult = result;
+				this.loading = false;
+				this.searchFlag = true;
+			}).catch(() => { this.loading = false; });
+		}
+	}
+
+	getWeatherFromSearch(woeid=null){
+		this.getDataWeather(woeid);
 	}
 }
