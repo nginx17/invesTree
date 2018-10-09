@@ -52,7 +52,7 @@
   </form>
 </nav>
 
-<div class="container">
+<div class="container-fluid">
 	<div class="row">
 		<div class="text-center col-12" *ngIf="loading">
 			<img src="assets/img/loading.gif" class="imgLoading" />
@@ -62,15 +62,39 @@
 				<tr>
 					<th scope="col">City</th>
 					<th scope="col">Latitude Longitude</th>
+					<th>&nbsp;</th>
 				</tr>
 				<ng-template ngFor [ngForOf]="searchResult" let-item>
-					<tr class="cursorHand" (click)="getWeatherFromSearch(item.woeid)">
-						<td>{{ item.title }}</td>
-						<td>{{ item.latt_long }}</td>
+					<tr class="cursorHand">
+						<td (click)="getWeatherFromSearch(item.woeid)">{{ item.title }}</td>
+						<td (click)="getWeatherFromSearch(item.woeid)">{{ item.latt_long }}</td>
+						<td><fa-icon [icon]="faSave" (click)="saveSearch(item)"></fa-icon></td>
 					</tr>
 				</ng-template>
 			</table>
 			<span *ngIf="searchResult.length == 0 && searchFlag">Data Tidak ditemukan</span>
+		</div>
+	</div>
+</div>
+
+<div class="container-fluid" *ngIf="searchHistory.length > 0">
+	<div class="row">
+		<div class="col-12 h1 text-center">
+			Search History
+		</div>
+		<div class="col-12 text-center">
+			<table class="table">
+				<tr>
+					<th scope="col">City</th>
+					<th scope="col">Latitude Longitude</th>
+				</tr>
+				<ng-template ngFor [ngForOf]="searchHistory" let-item>
+					<tr class="cursorHand">
+						<td (click)="getWeatherFromSearch(item.woeid)">{{ item.title }}</td>
+						<td (click)="getWeatherFromSearch(item.woeid)">{{ item.latt_long }}</td>
+					</tr>
+				</ng-template>
+			</table>
 		</div>
 	</div>
 </div>
