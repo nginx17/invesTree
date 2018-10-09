@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
+import * as moment from 'moment';
 
 @Component({
 	selector: 'app-home',
@@ -8,10 +9,13 @@ import { DataService } from '../data.service';
 })
 export class HomeComponent implements OnInit {
 
+	imageAPI = 'https://metaweather.com/static/img/weather/';
 	lat : number;
 	long : number;
 	woeid : number;
-	data : object[] = [];
+	currentLocation : string;
+	data : object[] = null;
+	dataToday : object = null;
 
 	constructor(
 		private dataService : DataService
@@ -39,7 +43,8 @@ export class HomeComponent implements OnInit {
 	getWoeId(){
 		this.dataService.getWoeId(this.lat,this.long)
 		.then(result => {
-			this.woeid = result[0].woeid;
+			this.woeid = result[0]['woeid'];
+			this.currentLocation = result[0]['title'];
 			this.getDataWeather();
 		});
 	}
@@ -47,7 +52,22 @@ export class HomeComponent implements OnInit {
 	getDataWeather(){
 		this.dataService.getDataWeather(this.woeid)
 		.then(result => {
-			this.data = result['consolidated_weather'];
+			var data = result['consolidated_weather'];
+			this.dataToday = data[0];
+			this.data = [];
+			for(var i=1; i<=5; ++i){
+				if(data[i] == undefined) break;
+				this.data.push({
+					dayName : moment(data[i]['applicable_date']).format('dddd'),
+					minTemp : this.optimizeNumber(data[i]['min_temp']),
+					maxTemp : this.optimizeNumber(data[i]['max_temp']),
+					icon : this.imageAPI+data[i]['weather_state_abbr']+'.svg'
+				});
+			}
 		});
+	}
+
+	optimizeNumber(num:number){
+		return Math.floor(num);
 	}
 }

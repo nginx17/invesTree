@@ -1,2 +1,46 @@
 <div id="backgroundImage">
+	<div *ngIf="data != null && data.length == 0" id="dataUnavailable">
+		Data Tidak Tersedia
+	</div>
+	<div *ngIf="data == null" id="dataUnavailable">
+		Mengambil data
+	</div>
+	<div *ngIf="dataToday != null" id="currentWeather" class="container">
+		<div class="row">
+			<div class="col-12 offset-md-3 col-md-6 mx-auto">
+				<div class="float-left">
+					<div id="realTemp">{{ optimizeNumber(dataToday['the_temp']) }} &#8451;</div>
+					<div id="tempRange">
+						<span class="minTemp">{{ optimizeNumber(dataToday['min_temp']) }}</span>
+						&nbsp;/&nbsp;
+						<span class="maxTemp">{{ optimizeNumber(dataToday['max_temp']) }}</span>
+					</div>
+				</div>
+				<img id="currentImage" [src]="imageAPI+dataToday['weather_state_abbr']+'.svg'" />
+			</div>
+			<div class="col-12 text-center" id="weatherName">{{ dataToday['weather_state_name'] }}</div>
+		</div>
+		<div class="text-left">
+			<span class="weatherColor font-weight-bold">Wind</span>&nbsp;<font color="#FFF">{{ optimizeNumber(dataToday['wind_speed']) }}km/h {{ dataToday['wind_direction_compass'] }}</font>
+		</div>
+
+		<div class="row">
+			<ng-template ngFor [ngForOf]="data" let-item>
+				<div class="col-6 col-md">
+					<div class="card w-100 p-1 m-1">
+						<div class="text-center title">{{ item.dayName }}</div>
+						<div class="row">
+							<div class="col p-r-0">
+								<img [src]="item.icon">
+							</div>
+							<div class="col p-0">
+								<div class="maxTemp">{{ item.maxTemp }}</div>
+								<div class="minTemp">{{ item.minTemp }}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</ng-template>
+		</div>
+	</div>
 </div>

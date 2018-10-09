@@ -1,5 +1,67 @@
+$weatherColor: #234448;
+
+.weatherColor {
+	color : $weatherColor;
+}
+
 #backgroundImage {
 	background-image : url('/assets/img/background.jpg');
 	background-repeat: no-repeat;
 	background-size: cover;
+
+	#dataUnavailable {
+		padding:20% 0 20% 0;
+		text-align: center;
+		color : #FFF;
+		font-weight: bold;
+		font-size: 24px;
+	}
+
+	#currentWeather {
+		padding : 20px;
+		text-align: center;
+	}
+
+	#currentImage {
+		width: 60%;
+		@media (max-width: 767px) {
+			width: 40%;
+		}
+		height: auto;
+	}
+
+	#weatherName {
+		font-size: 24px;
+		color : $weatherColor;
+		font-weight: bold;
+	}
+
+	#realTemp {
+		font-weight: bold;
+		font-size: 36px;
+		color:#FFF;
+	}
+
+	.minTemp {
+		color:#89d2da;
+	}
+
+	.maxTemp {
+		color:#d89635;
+	}
+
+	#tempRange {
+		font-weight: bold;
+		font-size: 18px;
+	}
+
+	.card {
+		background-color: rgba(20,20,20,.4);
+
+		.title {
+			font-weight: bold;
+			color : '#89d2da';
+			border-bottom: 1px solid #FFF;
+		}
+	}
 }
