@@ -37,4 +37,15 @@ export class DataService {
 			})
 		})
 	}
+
+	getDataCitySearch(query:any){
+		return new Promise((resolve, error) => {
+			this.http.get(this.API_HOST+'api/location/search/?query='+query)
+			.subscribe(result => {
+				resolve(result);
+			}, (errorResponse : HttpErrorResponse) => {
+				error(errorResponse);
+			})
+		})
+	}
 }

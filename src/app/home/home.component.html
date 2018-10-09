@@ -44,3 +44,34 @@
 		</div>
 	</div>
 </div>
+
+<!-- Search -->
+<nav class="navbar navbar-light bg-light">
+  <form class="form-inline w-100" #formSearch="ngForm" (submit)="getSearch(formSearch)">
+    <input class="form-control col-12" [(ngModel)]="search" name="search" type="search" placeholder="Search" aria-label="Search">
+  </form>
+</nav>
+
+<div class="container">
+	<div class="row">
+		<div class="text-center col-12" *ngIf="loading">
+			<img src="assets/img/loading.gif" class="imgLoading" />
+		</div>
+		<div class="col-12 text-center">
+			<table *ngIf="searchResult.length > 0" class="table">
+				<tr>
+					<th scope="col">City</th>
+					<th scope="col">Latitude Longitude</th>
+				</tr>
+				<ng-template ngFor [ngForOf]="searchResult" let-item>
+					<tr class="cursorHand" (click)="getWeatherFromSearch(item.woeid)">
+						<td>{{ item.title }}</td>
+						<td>{{ item.latt_long }}</td>
+					</tr>
+				</ng-template>
+			</table>
+
+			<span *ngIf="searchResult.length == 0 && searchFlag">Data Tidak ditemukan</span>
+		</div>
+	</div>
+</div>
