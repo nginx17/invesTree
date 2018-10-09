@@ -58,7 +58,7 @@ export class HomeComponent implements OnInit {
 
 		this.data = null;
 		this.dataToday = null;
-		
+
 		this.dataService.getDataWeather(woeid)
 		.then(result => {
 			var data = result['consolidated_weather'];
@@ -90,7 +90,6 @@ export class HomeComponent implements OnInit {
 
 			this.dataService.getDataCitySearch(searchQuery)
 			.then(result => {
-				console.log(result);
 				this.searchResult = result;
 				this.loading = false;
 				this.searchFlag = true;
